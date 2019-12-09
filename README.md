@@ -1,15 +1,15 @@
-![pf-core teaser][teaser]
+![@pf/core teaser][teaser]
 
-`pf-core` is the core plugin of `pf`, the fast and extensible command-line data (e.g. JSON) processor and transformer.
+`@pf/core` is the core plugin of `pf`, the fast and extensible command-line data (e.g. JSON) processor and transformer.
 
-See the [`pf-cli` github repository][pf-cli] for more details!
+See the [`@pf/cli` github repository][pf-cli] for more details!
 
 [![npm version](https://img.shields.io/npm/v/fx.svg?color=orange)](https://www.npmjs.com/package/fx)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?color=green)][license]
 
 ## Installation
 
-`pf-core` comes preinstalled in the `pf` command line tool. No installation necessary.
+`@pf/core` comes preinstalled in the `pf` command line tool. No installation necessary.
 
 ## License
 
