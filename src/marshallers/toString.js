@@ -1,6 +1,6 @@
 module.exports = {
   name: 'toString',
-  desc: 'applies Object.prototype.toString to the input.',
+  desc: 'applies Object.prototype.toString to the input and adds newlines.',
   func: (verbose, failEarly, argv) => jsons => {
     let str = ''
 
