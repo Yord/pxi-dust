@@ -17,7 +17,7 @@ module.exports = {
               obj = f(obj)
               if (typeof obj !== 'undefined') {
                 if (Array.isArray(obj)) objs2 = objs2.concat(obj)
-                else objs2.push(obj2)
+                else objs2.push(obj)
               }
             }
           }
