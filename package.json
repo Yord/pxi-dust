@@ -1,11 +1,11 @@
 {
-  "name": "@pf/core",
-  "version": "0.2.0",
-  "description": "Core plugin of pf, the fast and extensible command-line data (e.g. JSON) processor and transformer",
+  "name": "@pf/base",
+  "version": "0.3.0",
+  "description": "Plugin with basic operations for pf, the fast and extensible command-line data (e.g. JSON) processor and transformer",
   "keywords": ["pf", "parser functions", "json", "streaming", "lexer", "parser", "unmarshaller", "marshaller"],
-  "homepage": "https://github.com/Yord/pf-core",
+  "homepage": "https://github.com/Yord/pf-base",
   "bugs": {
-    "url": "https://github.com/Yord/pf-cli/issues"
+    "url": "https://github.com/Yord/pf/issues"
   },
   "license": "MIT",
   "author": "Philipp Wille <philipp.y.wille@gmail.com> (https://github.com/Yord)",
@@ -19,7 +19,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yord/pf-core.git"
+    "url": "https://github.com/Yord/pf-base.git"
   },
   "scripts": {
     "start": "./index.js",
