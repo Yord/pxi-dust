@@ -16,7 +16,7 @@ See the [`pf` github repository][pf] for more details!
 
 `@pf/base` is [MIT licensed][license].
 
-[license]: https://github.com/Yord/pf-core/blob/master/LICENSE
+[license]: https://github.com/Yord/pf-base/blob/master/LICENSE
 [teaser]: ./teaser.gif
 [pf]: https://github.com/Yord/pf
 [actions]: https://github.com/Yord/pf-base/actions
