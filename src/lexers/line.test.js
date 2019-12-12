@@ -1,4 +1,4 @@
-const {anything, array, assert, integer, property, string, unicodeString} = require('fast-check')
+const {anything, array, assert, integer, property, unicodeString} = require('fast-check')
 const {func: lexer} = require('./line')
 
 test('chunks data into lines and passes on each line as one token, not tracking lines since verbose is false', () => {
