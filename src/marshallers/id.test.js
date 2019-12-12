@@ -1,24 +1,23 @@
-const {array, assert, integer, jsonObject, property} = require('fast-check')
+const {anything, array, assert, property} = require('fast-check')
 const {func: marshaller} = require('./id')
 
 test('returns input as toString without newlines', () => {
-  const verbose   = undefined
-  const failEarly = undefined
-  const argv      = undefined
-  const marshal   = marshaller(verbose, failEarly, argv)
-
-  const jsons     = array(jsonObject())
+  const verbose   = anything()
+  const failEarly = anything()
+  const argv      = anything()
+  const jsons     = array(anything())
 
   assert(
     property(jsons, jsons => {
       const str = (
         jsons
-        .map(json => json === null ? '' : json.toString())
+        .filter(json => typeof json !== 'undefined' && json !== null)
+        .map(json => json.toString())
         .join('')
       )
 
       expect(
-        marshal(jsons)
+        marshaller(verbose, failEarly, argv)(jsons)
       ).toStrictEqual(
         {err: '', str}
       ) 

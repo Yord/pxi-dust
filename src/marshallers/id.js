@@ -6,7 +6,7 @@ module.exports = {
 
     for (let index = 0; index < jsons.length; index++) {
       const obj = jsons[index]
-      if (obj !== null) str += obj.toString()
+      if (typeof obj !== 'undefined' && obj !== null) str += obj.toString()
     }
 
     return {err: '', str}
