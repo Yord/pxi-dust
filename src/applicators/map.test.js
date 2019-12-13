@@ -21,7 +21,6 @@ test('applies the identity function to each element, not using lines since verbo
   )
 })
 
-/*
 test('applies a function selecting the time attribute to each element, not using lines since verbose is false, not failing early', () => {
   const err       = ''
   const verbose   = false
@@ -33,13 +32,15 @@ test('applies a function selecting the time attribute to each element, not using
   const lines     = integer()
 
   assert(
-    property(argv, jsons, others, lines, (argv, jsons, others, lines) =>
+    property(argv, jsons, others, lines, (argv, jsons, others, lines) => {
+      const input   = jsons.concat(others)
+      const results = jsons.map(fs[0]).concat(others.map(() => undefined))
+
       expect(
-        applicator(verbose, failEarly, fs, argv)(jsons, lines)
+        applicator(verbose, failEarly, fs, argv)(input, lines)
       ).toStrictEqual(
-        {err, jsons}
+        {err, jsons: results}
       )
-    )
+    })
   )
 })
-*/
