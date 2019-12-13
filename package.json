@@ -1,6 +1,6 @@
 {
-  "name": "@pf/base",
-  "version": "0.3.7",
+  "name": "@pfx/base",
+  "version": "0.4.0",
   "description": "Plugin with basic operations for pf, the fast and extensible command-line data (e.g. JSON) processor and transformer",
   "keywords": [
     "pf",
@@ -12,7 +12,7 @@
     "unmarshaller",
     "marshaller"
   ],
-  "homepage": "https://github.com/Yord/pf-base",
+  "homepage": "https://github.com/Yord/pfx-base",
   "bugs": {
     "url": "https://github.com/Yord/pf/issues"
   },
@@ -28,7 +28,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yord/pf-base.git"
+    "url": "https://github.com/Yord/pfx-base.git"
   },
   "scripts": {
     "start": "./index.js",
