@@ -6,11 +6,33 @@ See the [`pf` github repository][pf] for more details!
 
 [![npm version](https://img.shields.io/npm/v/fx.svg?color=orange)](https://www.npmjs.com/package/fx)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?color=green)][license]
-[![jest status](https://github.com/Yord/pf-base/workflows/unit%20tests/badge.svg?branch=master)][actions]
+[![unit tests status](https://github.com/Yord/pf-base/workflows/unit%20tests/badge.svg?branch=master)][actions]
 
 ## Installation
 
-`@pf/base` comes preinstalled in the `pf` command line tool. No installation necessary.
+> :ok_hand: `@pf/base` comes preinstalled in `pf`. No installation necessary. If you still want to install it, proceed as described below.
+
+`pf` requires **node v8.3.0** or higher.
+
+Usually, `@pf/base` is installed in `~/.pfrc/` as follows:
+
+```bash
+npm install @pf/base
+```
+
+The plugin is included in `~/.pfrc/index.js` as follows:
+
+```js
+const basePlugin = require('@pf/base')
+
+module.exports = {
+  plugins:  [basePlugin],
+  context:  {},
+  defaults: {}
+}
+```
+
+For a much more detailed description, see the [`pf` repository][pf].
 
 ## License
 
