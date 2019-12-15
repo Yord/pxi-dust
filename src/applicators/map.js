@@ -1,9 +1,9 @@
 module.exports = {
   name: 'map',
   desc: 'applies f to each parsed JSON element and replaces it with f\'s result.',
-  func: (verbose, failEarly, fs, argv) => (jsons, lines) => {
-    let err = ''
+  func: (fs, {verbose}) => (jsons, lines) => {
     let jsons2 = []
+    let err    = []
 
     for (let index = 0; index < jsons.length; index++) {
       try {

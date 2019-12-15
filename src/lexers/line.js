@@ -1,9 +1,10 @@
 module.exports = {
   name: 'line',
   desc: 'treats lines as tokens.',
-  func: (verbose, failEarly, argv) => (data, linesOffset) => {
+  func: ({verbose}) => (data, linesOffset) => {
     const tokens = []
     const lines  = []
+    const err    = []
   
     let text     = data
     let len      = text.length
@@ -39,6 +40,6 @@ module.exports = {
       }
     } while (!done)
   
-    return {err: '', tokens, lines, lastLine, rest: text}
+    return {err, tokens, lines, lastLine, rest: text}
   }
 }

@@ -1,21 +1,22 @@
-const {anything, array, assert, integer, property, string} = require('fast-check')
+const {anything, array, assert, constant, integer, property, string} = require('fast-check')
 const {func: parser} = require('./id')
 
 test('always passes tokens on', () => {
-  const verbose   = anything()
-  const failEarly = anything()
-  const argv      = anything()
-  const parse     = parser(verbose, failEarly, argv)
-  const tokens    = array(string())
-  const lines     = integer()
+  const err     = []
+  const verbose = anything()
+  const argv    = verbose.map(verbose => constant({verbose}))
+  const tokens  = array(string())
+  const lines   = integer()
 
   assert(
-    property(tokens, tokens =>
+    property((argv, tokens, lines), (argv, tokens, lines) => {
+      const parse = parser(argv)
+
       expect(
         parse(tokens, lines)
       ).toStrictEqual(
-        {err: '', jsons: tokens}
+        {err, jsons: tokens}
       )
-    )
+    })
   )
 })

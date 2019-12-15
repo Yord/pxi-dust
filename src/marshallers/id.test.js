@@ -1,14 +1,14 @@
-const {anything, array, assert, property} = require('fast-check')
+const {anything, array, assert, constant, property} = require('fast-check')
 const {func: marshaller} = require('./id')
 
 test('returns input as toString without newlines', () => {
-  const verbose   = anything()
-  const failEarly = anything()
-  const argv      = anything()
-  const jsons     = array(anything())
+  const err     = []
+  const verbose = anything()
+  const argv    = verbose.map(verbose => constant({verbose}))
+  const jsons   = array(anything())
 
   assert(
-    property(jsons, jsons => {
+    property(argv, jsons, (argv, jsons) => {
       const str = (
         jsons
         .filter(json => typeof json !== 'undefined' && json !== null)
@@ -17,9 +17,9 @@ test('returns input as toString without newlines', () => {
       )
 
       expect(
-        marshaller(verbose, failEarly, argv)(jsons)
+        marshaller(argv)(jsons)
       ).toStrictEqual(
-        {err: '', str}
+        {err, str}
       ) 
     })
   )

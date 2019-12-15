@@ -1,9 +1,9 @@
 module.exports = {
   name: 'filter',
   desc: 'expects f to be a predicate and keeps all JSON elements for which f yields true.',
-  func: (verbose, failEarly, ps, argv) => (jsons, lines) => {
-    let err = ''
+  func: (ps, {verbose}) => (jsons, lines) => {
     let jsons2 = []
+    const err  = []
 
     for (let index = 0; index < jsons.length; index++) {
       try {
@@ -19,11 +19,7 @@ module.exports = {
       } catch (e) {
         const line = verbose > 0 ? 'Line ' + lines[index] + ': '                           : ''
         const info = verbose > 1 ? ' while transforming:\n' + JSON.stringify(obj, null, 2) : ''
-        err += line + e + info + '\n'
-        if (failEarly) {
-          process.stderr.write(err)
-          process.exit(1)
-        }
+        err.push(line + e + info)
       }
     }
 
