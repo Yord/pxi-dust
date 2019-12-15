@@ -1,9 +1,9 @@
 module.exports = {
   name: 'flatMap',
   desc: 'applies f to each element, but acts differently depending on f\'s result: On undefined return nothing. On [...] return every array item individually or nothing for empty arrays. Otherwise act like map.',
-  func: (verbose, failEarly, fs, argv) => (jsons, lines) => {
-    let err = ''
+  func: (fs, {verbose}) => (jsons, lines) => {
     let jsons2 = []
+    let err    = []
 
     for (let index = 0; index < jsons.length; index++) {
       try {
