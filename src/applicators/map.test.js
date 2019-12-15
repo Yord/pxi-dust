@@ -21,7 +21,7 @@ test('applies the identity function to each element, not using lines since verbo
   )
 })
 
-test('applies a function selecting the time attribute to each element, not using lines since verbose is false, not failing early', () => {
+test('applies a function selecting the time attribute from each element, not using lines since verbose is false, not failing early', () => {
   const err       = ''
   const verbose   = false
   const failEarly = false
