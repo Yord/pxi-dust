@@ -16,11 +16,7 @@ module.exports = {
       } catch (e) {
         const line = verbose > 0 ? 'Line ' + lines[index] + ': '                           : ''
         const info = verbose > 1 ? ' while transforming:\n' + JSON.stringify(obj, null, 2) : ''
-        err += line + e + info + '\n'
-        if (failEarly) {
-          process.stderr.write(err)
-          process.exit(1)
-        }
+        err.push(line + e + info)
       }
     }
 
