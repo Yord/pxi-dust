@@ -1,13 +1,13 @@
-const {array, assert, constant, integer, jsonObject, property} = require('fast-check')
+const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
 const {func: applicator} = require('./map')
 
-test('applies the identity function to each element, not using lines since verbose is false, not failing early', () => {
+test('applies the identity function to each element, not using lines since verbose is 0', () => {
   const err     = []
   const fs      = [json => json]
-  const verbose = false
+  const verbose = 0
   const argv    = constant({verbose})
   const jsons   = array(jsonObject())
-  const lines   = integer()
+  const lines   = anything()
 
   assert(
     property(jsons, lines, (jsons, lines) =>
@@ -20,14 +20,14 @@ test('applies the identity function to each element, not using lines since verbo
   )
 })
 
-test('applies a function selecting the time attribute from each element, not using lines since verbose is false, not failing early', () => {
+test('applies a function selecting the time attribute from each element, not using lines since verbose is 0', () => {
   const err       = []
   const fs        = [json => json.time]
-  const verbose   = false
+  const verbose   = 0
   const argv      = constant({verbose})
   const jsons     = array(integer()).chain(ints => constant(ints.map(int => ({time: int}))))
   const others    = array(integer())
-  const lines     = integer()
+  const lines     = anything()
 
   assert(
     property(argv, jsons, others, lines, (argv, jsons, others, lines) => {
