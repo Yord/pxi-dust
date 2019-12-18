@@ -10,7 +10,7 @@ test('applies the identity function to each element, not using lines since verbo
 
   assert(
     property(jsons, lines, (jsons, lines) => {
-      const jsons2 = jsons.flatMap(fs[0])
+      const jsons2 = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
         applicator(fs, argv)(jsons, lines)
@@ -52,7 +52,7 @@ test('applies a function selecting the results attribute from each element, not 
 
   assert(
     property(jsons, lines, (jsons, lines) => {
-      const results = jsons.flatMap(fs[0])
+      const results = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
         applicator(fs, argv)(jsons, lines)
