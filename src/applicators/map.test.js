@@ -42,3 +42,24 @@ test('applies a function selecting the time attribute from each element, not usi
     })
   )
 })
+
+test('applies a function selecting non-present attributes which leads to an error, not using lines since verbose is 0', () => {
+  const msg       = "TypeError: Cannot read property 'b' of undefined"
+  const fs        = [int => int.a.b]
+  const verbose   = 0
+  const argv      = constant({verbose})
+  const jsons     = array(integer())
+  const lines     = anything()
+
+  assert(
+    property(argv, jsons, lines, (argv, jsons, lines) => {
+      const err = jsons.map(() => msg)
+
+      expect(
+        applicator(fs, argv)(jsons, lines)
+      ).toStrictEqual(
+        {err, jsons: []}
+      )
+    })
+  )
+})
