@@ -6,8 +6,8 @@ module.exports = {
     let err    = []
 
     for (let index = 0; index < jsons.length; index++) {
+      let obj = jsons[index]
       try {
-        let obj = jsons[index]
         for (let jndex = 0; jndex < fs.length; jndex++) {
           const f = fs[jndex]
           if (typeof obj !== 'undefined') obj = f(obj)
