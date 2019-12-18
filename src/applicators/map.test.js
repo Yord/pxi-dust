@@ -90,3 +90,33 @@ test('applies a function selecting non-present attributes which leads to an erro
     })
   )
 })
+
+test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2', () => {
+  const msg        = "TypeError: Cannot read property 'b' of undefined"
+  const fs         = [int => int.a.b]
+  const verbose    = 2
+  const argv       = constant({verbose})
+  const len        = integer(0, 10)
+  const jsonsLines = len.chain(len =>
+    array(integer(), len, len).chain(jsons =>
+      array(integer(), len, len).chain(lines =>
+        constant({jsons, lines})
+      )
+    )
+  )
+
+  assert(
+    property(argv, jsonsLines, (argv, {jsons, lines}) => {
+      const err = lines.map((line, index) => {
+        const info = ' while transforming:\n' + JSON.stringify(jsons[index], null, 2)
+        return `Line ${line}: ${msg}${info}`
+      })
+
+      expect(
+        applicator(fs, argv)(jsons, lines)
+      ).toStrictEqual(
+        {err, jsons: []}
+      )
+    })
+  )
+})
