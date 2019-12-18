@@ -1,39 +1,61 @@
 const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
-const {func: applicator} = require('./map')
+const {func: applicator} = require('./flatMap')
 
 test('applies the identity function to each element, not using lines since verbose is 0', () => {
   const err   = []
   const fs    = [json => json]
   const argv  = {verbose: 0}
-  const jsons = array(jsonObject())
+  const jsons = array(array(jsonObject()))
   const lines = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) =>
+    property(jsons, lines, (jsons, lines) => {
+      const jsons2 = jsons.flatMap(fs[0])
+
       expect(
         applicator(fs, argv)(jsons, lines)
       ).toStrictEqual(
-        {err, jsons}
+        {err, jsons: jsons2}
       )
-    )
+    })
   )
 })
 
-test('applies a function selecting the time attribute from each element, not using lines since verbose is 0', () => {
+test('applies the identity function to each element, not using lines since verbose is 0', () => {
   const err    = []
-  const fs     = [json => json.time]
+  const fs     = [json => json]
   const argv   = {verbose: 0}
-  const jsons  = array(integer()).chain(ints => constant(ints.map(int => ({time: int}))))
-  const others = array(integer())
+  const valid  = array(integer())
+  const others = array(integer().map(_ => undefined))
+  const jsons  = valid.chain(valid => others.map(others => valid.concat(others)))
   const lines  = anything()
 
   assert(
-    property(jsons, others, lines, (jsons, others, lines) => {
-      const input   = jsons.concat(others)
-      const results = jsons.map(fs[0]).concat(others.map(() => undefined))
+    property(jsons, lines, (jsons, lines) => {
+      const jsons2 = jsons.filter(json => typeof json !== 'undefined')
 
       expect(
-        applicator(fs, argv)(input, lines)
+        applicator(fs, argv)(jsons, lines)
+      ).toStrictEqual(
+        {err, jsons: jsons2}
+      )
+    })
+  )
+})
+
+test('applies a function selecting the results attribute from each element, not using lines since verbose is 0', () => {
+  const err    = []
+  const fs     = [json => json.results]
+  const argv   = {verbose: 0}
+  const jsons  = array(array(integer()).map(results => ({results})))
+  const lines  = anything()
+
+  assert(
+    property(jsons, lines, (jsons, lines) => {
+      const results = jsons.flatMap(fs[0])
+
+      expect(
+        applicator(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: results}
       )
@@ -43,7 +65,7 @@ test('applies a function selecting the time attribute from each element, not usi
 
 test('applies a function selecting non-present attributes which leads to an error, not using lines since verbose is 0', () => {
   const msg   = "TypeError: Cannot read property 'b' of undefined"
-  const fs    = [int => int.a.b]
+  const fs    = [i => i.a.b]
   const argv  = {verbose: 0}
   const jsons = array(integer())
   const lines = anything()

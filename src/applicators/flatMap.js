@@ -2,36 +2,33 @@ module.exports = {
   name: 'flatMap',
   desc: 'applies f to each element, but acts differently depending on f\'s result: On undefined return nothing. On [...] return every array item individually or nothing for empty arrays. Otherwise act like map.',
   func: (fs, {verbose}) => (jsons, lines) => {
-    let jsons2 = []
-    let err    = []
+    const jsons2 = []
+    const err    = []
 
     for (let index = 0; index < jsons.length; index++) {
+      const obj = jsons[index]
+      let objs  = undefined
       try {
-        let objs = [jsons[index]]
-        let objs2 = []
+        let acc = obj
         for (let jndex = 0; jndex < fs.length; jndex++) {
           const f = fs[jndex]
-          for (let undex = 0; undex < objs.length; undex++) {
-            let obj = objs[undex]
-            if (obj !== 'undefined') {
-              obj = f(obj)
-              if (typeof obj !== 'undefined') {
-                if (Array.isArray(obj)) objs2 = objs2.concat(obj)
-                else objs2.push(obj)
-              }
-            }
-          }
-          objs = objs2
-          objs2 = []
+          if (typeof acc !== 'undefined') acc = f(acc)
         }
-        for (let jndex = 0; jndex < objs.length; jndex++) {
-          const obj = objs[jndex]
-          jsons2.push(obj)
-        }
+        objs = acc
       } catch (e) {
         const line = verbose > 0 ? 'Line ' + lines[index] + ': '                           : ''
         const info = verbose > 1 ? ' while transforming:\n' + JSON.stringify(obj, null, 2) : ''
         err.push(line + e + info)
+      }
+      if (typeof objs !== 'undefined') {
+        if (Array.isArray(objs)) {
+          for (let undex = 0; undex < objs.length; undex++) {
+            const obj = objs[undex]
+            jsons2.push(obj)
+          }
+        } else {
+          jsons2.push(objs)
+        }
       }
     }
 
