@@ -1,11 +1,11 @@
-const {anything, array, assert, constant, integer, property} = require('fast-check')
-const {func: applicator} = require('./map')
+const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
+const {func: applicator} = require('./filter')
 
-test('applies the identity function to each element', () => {
+test('applies a predicate that is always true to each element', () => {
   const err   = []
-  const fs    = [json => json]
+  const fs    = [() => true]
   const argv  = anything().chain(verbose => constant({verbose}))
-  const jsons = array(anything())
+  const jsons = array(anything().map(any => typeof any === 'undefined' ? 42 : any))
   const lines = anything()
 
   assert(
@@ -19,23 +19,62 @@ test('applies the identity function to each element', () => {
   )
 })
 
-test('applies a function selecting the time attribute from each element', () => {
-  const err    = []
-  const fs     = [json => json.time]
+test('applies a predicate that is always false to each element', () => {
+  const err   = []
+  const fs    = [() => false]
+  const argv  = anything().chain(verbose => constant({verbose}))
+  const jsons = array(anything())
+  const lines = anything()
+
+  assert(
+    property(argv, jsons, lines, (argv, jsons, lines) =>
+      expect(
+        applicator(fs, argv)(jsons, lines)
+      ).toStrictEqual(
+        {err, jsons: []}
+      )
+    )
+  )
+})
+
+test('applies a predicate that is true for some input and false for other', () => {
+  const err     = []
+  const fs      = [n => n > 4]
+  const argv    = anything().chain(verbose => constant({verbose}))
+  const falsy   = array(integer(0, 4))
+  const truthy  = array(integer(5, 9))
+  const lines   = anything()
+
+  assert(
+    property(argv, falsy, truthy, lines, (argv, falsy, truthy, lines) => {
+      const numbers = falsy.concat(truthy)
+
+      expect(
+        applicator(fs, argv)(numbers, lines)
+      ).toStrictEqual(
+        {err, jsons: truthy}
+      )
+    })
+  )
+})
+
+test('compares two predicates with one predicate that is the conjunction of the two, not using lines since verbose is 0', () => {
+  const fs     = [n => n >= 4, n => n <= 6]
+  const f      = [n => n >= 4 && n <= 6]
   const argv   = anything().chain(verbose => constant({verbose}))
-  const jsons  = array(anything().chain(any => constant({time: any})))
-  const others = array(integer())
+  const falsy1 = array(integer(1, 3))
+  const falsy2 = array(integer(4, 6))
+  const truthy = array(integer(7, 9))
   const lines  = anything()
 
   assert(
-    property(argv, jsons, others, lines, (argv, jsons, others, lines) => {
-      const input   = jsons.concat(others)
-      const results = jsons.map(fs[0]).concat(others.map(() => undefined))
+    property(argv, falsy1, falsy2, truthy, lines, (argv, falsy1, falsy2, truthy, lines) => {
+      const numbers = falsy1.concat(falsy2).concat(truthy)
 
       expect(
-        applicator(fs, argv)(input, lines)
+        applicator(fs, argv)(numbers, lines)
       ).toStrictEqual(
-        {err, jsons: results}
+        applicator(f, argv)(numbers, lines)
       )
     })
   )
@@ -43,7 +82,7 @@ test('applies a function selecting the time attribute from each element', () => 
 
 test('applies a function selecting non-present attributes which leads to an error, not using lines since verbose is 0', () => {
   const msg   = "TypeError: Cannot read property 'b' of undefined"
-  const fs    = [int => int.a.b]
+  const fs    = [i => i.a.b]
   const argv  = {verbose: 0}
   const jsons = array(integer())
   const lines = anything()

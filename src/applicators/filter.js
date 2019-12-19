@@ -6,15 +6,17 @@ module.exports = {
     const err  = []
 
     for (let index = 0; index < jsons.length; index++) {
+      let obj = jsons[index]
       try {
-        let obj = jsons[index]
+        let acc = obj
         for (let jndex = 0; jndex < ps.length; jndex++) {
           const p = ps[jndex]
-          if (typeof obj === 'undefined' || p(obj) === false) {
-            obj = undefined
+          if (typeof acc === 'undefined' || p(acc) === false) {
+            acc = undefined
             break
           }
         }
+        obj = acc
         if (typeof obj !== 'undefined') jsons2.push(obj)
       } catch (e) {
         const line = verbose > 0 ? 'Line ' + lines[index] + ': '                           : ''

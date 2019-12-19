@@ -2,22 +2,23 @@ const {anything, array, assert, constant, integer, jsonObject, property} = requi
 const {func: applicator} = require('./id')
 
 test('does not apply function, returns input unchanged as output', () => {
-  const err      = []
-  const fs       = array(anything())
-  const verbose  = anything()
-  const argv     = verbose.map(verbose => constant({verbose}))
-  const inputLen = integer(0, 10)
+  const err        = []
+  const fs         = array(anything())
+  const argv       = anything().map(verbose => constant({verbose}))
+  const jsonsLines = integer(0, 10).chain(len =>
+    array(jsonObject(), len, len).chain(jsons =>
+      array(integer(), len, len).chain(lines =>
+        constant({jsons, lines})
+      )
+    )
+  )
 
   assert(
-    property(fs, argv, inputLen, (fs, argv, inputLen) => {
-      const jsons = array(jsonObject(), inputLen)
-      const lines = array(integer(), inputLen)
-      property(jsons, lines, (jsons, lines) =>
-        expect(
-          applicator(fs, argv)(jsons, lines)
-        ).toStrictEqual(
-          {err, jsons}
-        )
+    property(fs, argv, jsonsLines, (fs, argv, {jsons, lines}) => {
+      expect(
+        applicator(fs, argv)(jsons, lines)
+      ).toStrictEqual(
+        {err, jsons}
       )
     })
   )
