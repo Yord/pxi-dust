@@ -1,15 +1,15 @@
-const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
+const {anything, array, assert, constant, integer, property} = require('fast-check')
 const {func: applicator} = require('./flatMap')
 
-test('applies the identity function to each element, not using lines since verbose is 0', () => {
+test('applies the identity function to each element', () => {
   const err   = []
   const fs    = [json => json]
-  const argv  = {verbose: 0}
-  const jsons = array(array(jsonObject()))
+  const argv  = anything().chain(verbose => constant({verbose}))
+  const jsons = array(array(anything()))
   const lines = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) => {
+    property(argv, jsons, lines, (argv, jsons, lines) => {
       const jsons2 = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
@@ -21,17 +21,17 @@ test('applies the identity function to each element, not using lines since verbo
   )
 })
 
-test('applies the identity function to each element, not using lines since verbose is 0', () => {
+test('applies the identity function to each element', () => {
   const err    = []
   const fs     = [json => json]
-  const argv   = {verbose: 0}
+  const argv   = anything().chain(verbose => constant({verbose}))
   const valid  = array(integer())
   const others = array(integer().map(_ => undefined))
   const jsons  = valid.chain(valid => others.map(others => valid.concat(others)))
   const lines  = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) => {
+    property(argv, jsons, lines, (argv, jsons, lines) => {
       const jsons2 = jsons.filter(json => typeof json !== 'undefined')
 
       expect(
@@ -43,15 +43,15 @@ test('applies the identity function to each element, not using lines since verbo
   )
 })
 
-test('applies a function selecting the results attribute from each element, not using lines since verbose is 0', () => {
+test('applies a function selecting the results attribute from each element', () => {
   const err    = []
   const fs     = [json => json.results]
-  const argv   = {verbose: 0}
+  const argv   = anything().chain(verbose => constant({verbose}))
   const jsons  = array(array(integer()).map(results => ({results})))
   const lines  = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) => {
+    property(argv, jsons, lines, (argv, jsons, lines) => {
       const results = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
@@ -87,8 +87,7 @@ test('applies a function selecting non-present attributes which leads to an erro
   const msg        = "TypeError: Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
   const argv       = {verbose: 1}
-  const len        = integer(0, 10)
-  const jsonsLines = len.chain(len =>
+  const jsonsLines = integer(0, 10).chain(len =>
     array(integer(), len, len).chain(jsons =>
       array(integer(), len, len).chain(lines =>
         constant({jsons, lines})
@@ -109,12 +108,11 @@ test('applies a function selecting non-present attributes which leads to an erro
   )
 })
 
-test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2', () => {
+test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2 or higher', () => {
   const msg        = "TypeError: Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
-  const argv       = {verbose: 2}
-  const len        = integer(0, 10)
-  const jsonsLines = len.chain(len =>
+  const argv       = integer(2, 50).chain(verbose => constant({verbose}))
+  const jsonsLines = integer(0, 10).chain(len =>
     array(integer(), len, len).chain(jsons =>
       array(integer(), len, len).chain(lines =>
         constant({jsons, lines})
@@ -123,7 +121,7 @@ test('applies a function selecting non-present attributes which leads to an erro
   )
 
   assert(
-    property(jsonsLines, ({jsons, lines}) => {
+    property(argv, jsonsLines, (argv, {jsons, lines}) => {
       const err = lines.map((line, index) => {
         const info = ' while transforming:\n' + JSON.stringify(jsons[index], null, 2)
         return `Line ${line}: ${msg}${info}`

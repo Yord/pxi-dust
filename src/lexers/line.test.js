@@ -1,19 +1,18 @@
-const {array, assert, constant, integer, property, unicodeString} = require('fast-check')
+const {anything, array, assert, constant, integer, property, unicodeString} = require('fast-check')
 const {func: lexer} = require('./line')
 
-test('chunks data into lines and passes on each line as one token, not tracking lines since verbose is false', () => {
-  const err     = []                               // line lexer does not report any errors
-  const verbose = false                            // verbose is set to false, so lines should not be counted
-  const argv    = constant({verbose})              // is not used by line lexer, should not make any difference
-  const tokens  = array(unicodeStringNoNewlines()) // tokens are any number of strings
-  const rest    = unicodeStringNoNewlines()        // rest string that should not be lexed as a token
-  const offset  = integer()                        // starting offset for line count
+test('chunks data into lines and passes on each line as one token', () => {
+  const err     = []
+  const argv    = anything().chain(verbose => constant({verbose}))
+  const tokens  = array(unicodeStringNoNewlines())
+  const rest    = unicodeStringNoNewlines()
+  const offset  = anything()
+  const lines   = []
 
   assert(
-    property(argv, tokens, rest, offset, (argv, tokens, rest, offset) => {
-      const data     = tokens.join('\n') + (tokens.length > 0 ? '\n' : '') + rest
+    property(tokens, rest, offset, (tokens, rest, offset) => {
+      const data     = tokens.map(token => token + '\n').join('') + rest
       const lastLine = offset
-      const lines    = []
 
       expect(
         lexer(argv)(data, offset)
@@ -24,17 +23,16 @@ test('chunks data into lines and passes on each line as one token, not tracking 
   )
 })
 
-test('chunks data into lines and passes on each line as one token, tracking lines since verbose is true', () => {
-  const err       = []                               // line lexer does not report any errors
-  const verbose   = true                             // verbose is set to true, so lines should be counted
-  const argv      = constant({verbose})              // is not used by line lexer, should not make any difference
-  const tokens    = array(unicodeStringNoNewlines()) // tokens are any number of strings
-  const rest      = unicodeStringNoNewlines()        // rest string that should not be lexed as a token
-  const offset    = integer()                        // starting offset for line count
+test('chunks data into lines and passes on each line as one token, tracking lines since verbose is 1', () => {
+  const err    = []
+  const argv   = {verbose: 1}
+  const tokens = array(unicodeStringNoNewlines())
+  const rest   = unicodeStringNoNewlines()
+  const offset = integer()
 
   assert(
-    property(argv, tokens, rest, offset, (argv, tokens, rest, offset) => {
-      const data     = tokens.join('\n') + (tokens.length > 0 ? '\n' : '') + rest
+    property(tokens, rest, offset, (tokens, rest, offset) => {
+      const data     = tokens.map(token => token + '\n').join('') + rest
       const lastLine = offset + tokens.length
       const lines    = arrayFrom(offset + 1, tokens.length)
 

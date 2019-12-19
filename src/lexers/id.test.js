@@ -1,12 +1,11 @@
-const {anything, assert, constant, integer, property, string} = require('fast-check')
+const {anything, assert, constant, property} = require('fast-check')
 const {func: lexer} = require('./id')
 
 test('passes on data as one big token, ignoring lines completely', () => {
   const err       = []
-  const verbose   = anything()
-  const argv      = verbose.map(verbose => constant({verbose}))
-  const data      = string()
-  const prevLines = integer()
+  const argv      = anything().chain(verbose => constant({verbose}))
+  const data      = anything()
+  const prevLines = anything()
 
   assert(
     property(data, prevLines, (data, prevLines) =>

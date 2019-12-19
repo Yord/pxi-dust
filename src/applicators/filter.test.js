@@ -1,15 +1,15 @@
 const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
 const {func: applicator} = require('./filter')
 
-test('applies a predicate that is always true to each element, not using lines since verbose is 0', () => {
+test('applies a predicate that is always true to each element', () => {
   const err   = []
   const fs    = [() => true]
-  const argv  = {verbose: 0}
-  const jsons = array(jsonObject())
+  const argv  = anything().chain(verbose => constant({verbose}))
+  const jsons = array(anything().map(any => typeof any === 'undefined' ? 42 : any))
   const lines = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) =>
+    property(argv, jsons, lines, (argv, jsons, lines) =>
       expect(
         applicator(fs, argv)(jsons, lines)
       ).toStrictEqual(
@@ -19,15 +19,15 @@ test('applies a predicate that is always true to each element, not using lines s
   )
 })
 
-test('applies a predicate that is always false to each element, not using lines since verbose is 0', () => {
+test('applies a predicate that is always false to each element', () => {
   const err   = []
   const fs    = [() => false]
-  const argv  = {verbose: 0}
-  const jsons = array(jsonObject())
+  const argv  = anything().chain(verbose => constant({verbose}))
+  const jsons = array(anything())
   const lines = anything()
 
   assert(
-    property(jsons, lines, (jsons, lines) =>
+    property(argv, jsons, lines, (argv, jsons, lines) =>
       expect(
         applicator(fs, argv)(jsons, lines)
       ).toStrictEqual(
@@ -37,16 +37,16 @@ test('applies a predicate that is always false to each element, not using lines 
   )
 })
 
-test('applies a predicate that is true for some input and false for other, not using lines since verbose is 0', () => {
+test('applies a predicate that is true for some input and false for other', () => {
   const err     = []
   const fs      = [n => n > 4]
-  const argv    = {verbose: 0}
+  const argv    = anything().chain(verbose => constant({verbose}))
   const falsy   = array(integer(0, 4))
   const truthy  = array(integer(5, 9))
   const lines   = anything()
 
   assert(
-    property(falsy, truthy, lines, (falsy, truthy, lines) => {
+    property(argv, falsy, truthy, lines, (argv, falsy, truthy, lines) => {
       const numbers = falsy.concat(truthy)
 
       expect(
@@ -61,14 +61,14 @@ test('applies a predicate that is true for some input and false for other, not u
 test('compares two predicates with one predicate that is the conjunction of the two, not using lines since verbose is 0', () => {
   const fs     = [n => n >= 4, n => n <= 6]
   const f      = [n => n >= 4 && n <= 6]
-  const argv   = {verbose: 0}
+  const argv   = anything().chain(verbose => constant({verbose}))
   const falsy1 = array(integer(1, 3))
   const falsy2 = array(integer(4, 6))
   const truthy = array(integer(7, 9))
   const lines  = anything()
 
   assert(
-    property(falsy1, falsy2, truthy, lines, (falsy1, falsy2, truthy, lines) => {
+    property(argv, falsy1, falsy2, truthy, lines, (argv, falsy1, falsy2, truthy, lines) => {
       const numbers = falsy1.concat(falsy2).concat(truthy)
 
       expect(
@@ -104,8 +104,7 @@ test('applies a function selecting non-present attributes which leads to an erro
   const msg        = "TypeError: Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
   const argv       = {verbose: 1}
-  const len        = integer(0, 10)
-  const jsonsLines = len.chain(len =>
+  const jsonsLines = integer(0, 10).chain(len =>
     array(integer(), len, len).chain(jsons =>
       array(integer(), len, len).chain(lines =>
         constant({jsons, lines})
@@ -126,12 +125,11 @@ test('applies a function selecting non-present attributes which leads to an erro
   )
 })
 
-test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2', () => {
+test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2 or bigger', () => {
   const msg        = "TypeError: Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
-  const argv       = {verbose: 2}
-  const len        = integer(0, 10)
-  const jsonsLines = len.chain(len =>
+  const argv       = integer(2, 50).chain(verbose => constant({verbose}))
+  const jsonsLines = integer(0, 10).chain(len =>
     array(integer(), len, len).chain(jsons =>
       array(integer(), len, len).chain(lines =>
         constant({jsons, lines})
@@ -140,7 +138,7 @@ test('applies a function selecting non-present attributes which leads to an erro
   )
 
   assert(
-    property(jsonsLines, ({jsons, lines}) => {
+    property(argv, jsonsLines, (argv, {jsons, lines}) => {
       const err = lines.map((line, index) => {
         const info = ' while transforming:\n' + JSON.stringify(jsons[index], null, 2)
         return `Line ${line}: ${msg}${info}`
