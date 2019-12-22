@@ -3,7 +3,7 @@ const {func: lexer} = require('./line')
 
 test('chunks data into lines and passes on each line as one token', () => {
   const err     = []
-  const argv    = anything().chain(verbose => constant({verbose}))
+  const argv    = {verbose: 0}
   const tokens  = array(unicodeStringNoNewlines())
   const rest    = unicodeStringNoNewlines()
   const offset  = anything()

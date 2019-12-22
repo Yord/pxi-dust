@@ -48,7 +48,7 @@ For a much more detailed description, see the [`pf` repository][pf].
 [npm-shield]: https://img.shields.io/npm/v/@pfx/base.svg?color=orange
 [license-shield]: https://img.shields.io/npm/l/@pfx/base?color=yellow
 [unit-tests-shield]: https://github.com/Yord/pfx-base/workflows/unit%20tests/badge.svg?branch=master
-[node-shield]: https://img.shields.io/node/v/@pfx/pf?color=red
+[node-shield]: https://img.shields.io/node/v/@pfx/base?color=red
 [node]: https://nodejs.org/
 [prs-shield]: https://img.shields.io/badge/PRs-welcome-green.svg
 [pfx-how-to-contribute]: https://github.com/Yord/pf
