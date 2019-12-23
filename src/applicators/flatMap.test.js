@@ -64,7 +64,7 @@ test('applies a function selecting the results attribute from each element', () 
 })
 
 test('applies a function selecting non-present attributes which leads to an error, not using lines since verbose is 0', () => {
-  const msg   = "TypeError: Cannot read property 'b' of undefined"
+  const msg   = "Cannot read property 'b' of undefined"
   const fs    = [i => i.a.b]
   const argv  = {verbose: 0}
   const jsons = array(integer())
@@ -72,7 +72,7 @@ test('applies a function selecting non-present attributes which leads to an erro
 
   assert(
     property(jsons, lines, (jsons, lines) => {
-      const err = jsons.map(() => msg)
+      const err = jsons.map(() => ({msg}))
 
       expect(
         applicator(fs, argv)(jsons, lines)
@@ -84,7 +84,7 @@ test('applies a function selecting non-present attributes which leads to an erro
 })
 
 test('applies a function selecting non-present attributes which leads to an error, using lines since verbose is 1', () => {
-  const msg        = "TypeError: Cannot read property 'b' of undefined"
+  const msg        = "Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
   const argv       = {verbose: 1}
   const jsonsLines = integer(0, 10).chain(len =>
@@ -97,7 +97,7 @@ test('applies a function selecting non-present attributes which leads to an erro
 
   assert(
     property(jsonsLines, ({jsons, lines}) => {
-      const err = lines.map(line => `Line ${line}: ${msg}`)
+      const err = lines.map(line => ({msg, line}))
 
       expect(
         applicator(fs, argv)(jsons, lines)
@@ -109,7 +109,7 @@ test('applies a function selecting non-present attributes which leads to an erro
 })
 
 test('applies a function selecting non-present attributes which leads to an error, using lines and additional info since verbose is 2 or higher', () => {
-  const msg        = "TypeError: Cannot read property 'b' of undefined"
+  const msg        = "Cannot read property 'b' of undefined"
   const fs         = [int => int.a.b]
   const argv       = integer(2, 50).chain(verbose => constant({verbose}))
   const jsonsLines = integer(0, 10).chain(len =>
@@ -123,8 +123,8 @@ test('applies a function selecting non-present attributes which leads to an erro
   assert(
     property(argv, jsonsLines, (argv, {jsons, lines}) => {
       const err = lines.map((line, index) => {
-        const info = ' while transforming:\n' + JSON.stringify(jsons[index], null, 2)
-        return `Line ${line}: ${msg}${info}`
+        const info = JSON.stringify(jsons[index], null, 0)
+        return {msg, line, info}
       })
 
       expect(
