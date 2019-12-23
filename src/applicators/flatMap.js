@@ -16,9 +16,10 @@ module.exports = {
         }
         objs = acc
       } catch (e) {
-        const line = verbose > 0 ? 'Line ' + lines[index] + ': '                           : ''
-        const info = verbose > 1 ? ' while transforming:\n' + JSON.stringify(obj, null, 2) : ''
-        err.push(line + e + info)
+        const msg  =               {msg: e.message}
+        const line = verbose > 0 ? {line: lines[index]}                 : {}
+        const info = verbose > 1 ? {info: JSON.stringify(obj, null, 0)} : {}
+        err.push(Object.assign(msg, line, info))
       }
       if (typeof objs !== 'undefined') {
         if (Array.isArray(objs)) {
