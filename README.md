@@ -36,6 +36,10 @@ module.exports = {
 
 For a much more detailed description, see the [`pf` repository][pf].
 
+## Reporting Issues
+
+Please report issues [at the `pf` repository][issues]!
+
 ## License
 
 `@pfx/base` is [MIT licensed][license].
@@ -54,3 +58,4 @@ For a much more detailed description, see the [`pf` repository][pf].
 [linux-unit-tests-shield]: https://github.com/Yord/pfx-base/workflows/linux/badge.svg?branch=master
 [macos-unit-tests-shield]: https://github.com/Yord/pfx-base/workflows/macos/badge.svg?branch=master
 [windows-unit-tests-shield]: https://github.com/Yord/pfx-base/workflows/windows/badge.svg?branch=master
+[issues]: https://github.com/Yord/pf/issues
