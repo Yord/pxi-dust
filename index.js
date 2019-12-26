@@ -1,19 +1,14 @@
 module.exports = {
-  lexers: [
-    require('./src/lexers/line'),
-    require('./src/lexers/id')
+  lexers:      [
+    require('./src/lexers/line')
   ],
-  parsers: [
-    require('./src/parsers/id')
-  ],
+  parsers:     [],
   applicators: [
     require('./src/applicators/map'),
     require('./src/applicators/flatMap'),
-    require('./src/applicators/filter'),
-    require('./src/applicators/id')
+    require('./src/applicators/filter')
   ],
   marshallers: [
-    require('./src/marshallers/toString'),
-    require('./src/marshallers/id')
+    require('./src/marshallers/toString')
   ]
 }
