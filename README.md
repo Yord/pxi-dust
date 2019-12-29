@@ -25,10 +25,10 @@ npm install @pfx/base
 The plugin is included in `~/.pfrc/index.js` as follows:
 
 ```js
-const basePlugin = require('@pfx/base')
+const base = require('@pfx/base')
 
 module.exports = {
-  plugins:  [basePlugin],
+  plugins:  [base],
   context:  {},
   defaults: {}
 }
