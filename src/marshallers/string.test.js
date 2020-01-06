@@ -1,5 +1,5 @@
 const {anything, array, assert, constant, property} = require('fast-check')
-const {func: marshaller} = require('./toString')
+const {func: marshaller} = require('./string')
 
 test('returns input as toString with newlines', () => {
   const err    = []
