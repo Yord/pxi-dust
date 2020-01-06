@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'toString',
+  name: 'string',
   desc: 'applies Object.prototype.toString to the input and adds newlines.',
   func: ({}) => values => {
     let str   = ''
