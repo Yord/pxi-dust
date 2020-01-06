@@ -9,6 +9,6 @@ module.exports = {
     require('./src/applicators/filter')
   ],
   marshallers: [
-    require('./src/marshallers/toString')
+    require('./src/marshallers/string')
   ]
 }

@@ -36,6 +36,18 @@ module.exports = {
 
 For a much more detailed description, see the [`.pfrc` module documentation][pf-pfrc-module] in the [`pf` repository][pf].
 
+## Extensions
+
+This plugin comes with the following `pf` extensions:
+
+|                      | Description                                                                                                                                                                                     |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `line` lexer         | Divides data on line breaks. A lot of data formats like CSV, TSV, and JSON line build on this separation.                                                                                       |
+| `map` applicator     | Applies `pf`'s functions to each individual line. Always returns a single result, unless an error is thrown during function application.                                                        |
+| `flatMap` applicator | Applies `pf`'s functions to each individual line. May return any number of results, including none, thus being able to change the length of a file.                                             |
+| `filter` applicator  | Treats `pf`'s functions as a conjunction of predicates and applies it to each individual line. If any predicate is false, the line is dropped, if all predicates return true, the line is kept. |
+| `string` marshaller  | Serializes each transformed JSON into a string separated by newlines.                                                                                                                           |
+
 ## Reporting Issues
 
 Please report issues [at the `pf` repository][issues]!
