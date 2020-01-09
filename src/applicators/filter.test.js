@@ -1,5 +1,5 @@
 const {anything, array, assert, constant, integer, jsonObject, property} = require('fast-check')
-const {func: applicator} = require('./filter')
+const {func: applier} = require('./filter')
 
 test('applies a predicate that is always true to each element', () => {
   const err   = []
@@ -11,7 +11,7 @@ test('applies a predicate that is always true to each element', () => {
   assert(
     property(argv, jsons, lines, (argv, jsons, lines) =>
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons}
       )
@@ -29,7 +29,7 @@ test('applies a predicate that is always false to each element', () => {
   assert(
     property(argv, jsons, lines, (argv, jsons, lines) =>
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -50,7 +50,7 @@ test('applies a predicate that is true for some input and false for other', () =
       const numbers = falsy.concat(truthy)
 
       expect(
-        applicator(fs, argv)(numbers, lines)
+        applier(fs, argv)(numbers, lines)
       ).toStrictEqual(
         {err, jsons: truthy}
       )
@@ -72,9 +72,9 @@ test('compares two predicates with one predicate that is the conjunction of the 
       const numbers = falsy1.concat(falsy2).concat(truthy)
 
       expect(
-        applicator(fs, argv)(numbers, lines)
+        applier(fs, argv)(numbers, lines)
       ).toStrictEqual(
-        applicator(f, argv)(numbers, lines)
+        applier(f, argv)(numbers, lines)
       )
     })
   )
@@ -92,7 +92,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = jsons.map(() => ({msg}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -117,7 +117,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = lines.map(line => ({msg, line}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -145,7 +145,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       })
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )

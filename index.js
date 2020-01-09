@@ -3,10 +3,10 @@ module.exports = {
     require('./src/chunkers/line')
   ],
   deserializers: [],
-  applicators:   [
-    require('./src/applicators/map'),
-    require('./src/applicators/flatMap'),
-    require('./src/applicators/filter')
+  appliers:      [
+    require('./src/appliers/map'),
+    require('./src/appliers/flatMap'),
+    require('./src/appliers/filter')
   ],
   serializers:   [
     require('./src/serializers/string')

@@ -1,5 +1,5 @@
 const {anything, array, assert, constant, integer, property} = require('fast-check')
-const {func: applicator} = require('./map')
+const {func: applier} = require('./map')
 
 test('applies the identity function to each element', () => {
   const err   = []
@@ -11,7 +11,7 @@ test('applies the identity function to each element', () => {
   assert(
     property(argv, jsons, lines, (argv, jsons, lines) =>
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons}
       )
@@ -33,7 +33,7 @@ test('applies a function selecting the time attribute from each element', () => 
       const results = jsons.map(fs[0]).concat(others.map(() => undefined))
 
       expect(
-        applicator(fs, argv)(input, lines)
+        applier(fs, argv)(input, lines)
       ).toStrictEqual(
         {err, jsons: results}
       )
@@ -53,7 +53,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = jsons.map(() => ({msg}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -78,7 +78,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = lines.map(line => ({msg, line}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -106,7 +106,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       })
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
