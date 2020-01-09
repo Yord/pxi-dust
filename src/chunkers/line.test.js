@@ -1,45 +1,45 @@
 const {anything, array, assert, constant, integer, property, unicodeString} = require('fast-check')
 const {func: chunker} = require('./line')
 
-test('chunks data into lines and passes on each line as one token', () => {
+test('chunks data into lines and passes on each line as one chunk', () => {
   const err     = []
   const argv    = {verbose: 0}
-  const tokens  = array(unicodeStringNoNewlines())
+  const chunks  = array(unicodeStringNoNewlines())
   const rest    = unicodeStringNoNewlines()
   const offset  = anything()
   const lines   = []
 
   assert(
-    property(tokens, rest, offset, (tokens, rest, offset) => {
-      const data     = tokens.map(token => token + '\n').join('') + rest
+    property(chunks, rest, offset, (chunks, rest, offset) => {
+      const data     = chunks.map(chunk => chunk + '\n').join('') + rest
       const lastLine = offset
 
       expect(
         chunker(argv)(data, offset)
       ).toStrictEqual(
-        {err, tokens, lines, lastLine, rest}
+        {err, chunks, lines, lastLine, rest}
       )
     })
   )
 })
 
-test('chunks data into lines and passes on each line as one token, tracking lines since verbose is 1', () => {
+test('chunks data into lines and passes on each line as one chunk, tracking lines since verbose is 1', () => {
   const err    = []
   const argv   = {verbose: 1}
-  const tokens = array(unicodeStringNoNewlines())
+  const chunks = array(unicodeStringNoNewlines())
   const rest   = unicodeStringNoNewlines()
   const offset = integer()
 
   assert(
-    property(tokens, rest, offset, (tokens, rest, offset) => {
-      const data     = tokens.map(token => token + '\n').join('') + rest
-      const lastLine = offset + tokens.length
-      const lines    = arrayFrom(offset + 1, tokens.length)
+    property(chunks, rest, offset, (chunks, rest, offset) => {
+      const data     = chunks.map(chunk => chunk + '\n').join('') + rest
+      const lastLine = offset + chunks.length
+      const lines    = arrayFrom(offset + 1, chunks.length)
 
       expect(
         chunker(argv)(data, offset)
       ).toStrictEqual(
-        {err, tokens, lines, lastLine, rest}
+        {err, chunks, lines, lastLine, rest}
       )
     })
   )
