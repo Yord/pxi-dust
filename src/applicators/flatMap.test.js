@@ -1,5 +1,5 @@
 const {anything, array, assert, constant, integer, property} = require('fast-check')
-const {func: applicator} = require('./flatMap')
+const {func: applier} = require('./flatMap')
 
 test('applies the identity function to each element', () => {
   const err   = []
@@ -13,7 +13,7 @@ test('applies the identity function to each element', () => {
       const jsons2 = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: jsons2}
       )
@@ -35,7 +35,7 @@ test('applies the identity function to each element', () => {
       const jsons2 = jsons.filter(json => typeof json !== 'undefined')
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: jsons2}
       )
@@ -55,7 +55,7 @@ test('applies a function selecting the results attribute from each element', () 
       const results = jsons.reduce((acc, json) => (fs[0](json).forEach(elem => acc.push(elem)), acc), []) // flatMap
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: results}
       )
@@ -75,7 +75,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = jsons.map(() => ({msg}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -100,7 +100,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       const err = lines.map(line => ({msg, line}))
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )
@@ -128,7 +128,7 @@ test('applies a function selecting non-present attributes which leads to an erro
       })
 
       expect(
-        applicator(fs, argv)(jsons, lines)
+        applier(fs, argv)(jsons, lines)
       ).toStrictEqual(
         {err, jsons: []}
       )

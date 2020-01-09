@@ -1,6 +1,6 @@
 module.exports = {
   name: 'map',
-  desc: 'applies f to each parsed JSON element and replaces it with f\'s result.',
+  desc: 'applies f to each deserialized JSON element and replaces it with f\'s result.',
   func: (fs, {verbose}) => (jsons, lines) => {
     let jsons2 = []
     let err    = []
