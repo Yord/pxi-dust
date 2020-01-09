@@ -1,6 +1,6 @@
 module.exports = {
-  lexers:      [
-    require('./src/lexers/line')
+  chunkers:    [
+    require('./src/chunkers/line')
   ],
   parsers:     [],
   applicators: [

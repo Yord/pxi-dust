@@ -1,5 +1,5 @@
 const {anything, array, assert, constant, integer, property, unicodeString} = require('fast-check')
-const {func: lexer} = require('./line')
+const {func: chunker} = require('./line')
 
 test('chunks data into lines and passes on each line as one token', () => {
   const err     = []
@@ -15,7 +15,7 @@ test('chunks data into lines and passes on each line as one token', () => {
       const lastLine = offset
 
       expect(
-        lexer(argv)(data, offset)
+        chunker(argv)(data, offset)
       ).toStrictEqual(
         {err, tokens, lines, lastLine, rest}
       )
@@ -37,7 +37,7 @@ test('chunks data into lines and passes on each line as one token, tracking line
       const lines    = arrayFrom(offset + 1, tokens.length)
 
       expect(
-        lexer(argv)(data, offset)
+        chunker(argv)(data, offset)
       ).toStrictEqual(
         {err, tokens, lines, lastLine, rest}
       )
