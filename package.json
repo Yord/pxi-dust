@@ -1,12 +1,16 @@
 {
   "name": "pxi-base",
-  "version": "0.10.1",
-  "description": "plugin with basic operations for pxi (pixie), the small, fast and magic command-line data processor",
+  "version": "0.10.2",
+  "description": "plugin with basic operations for pxi (pixie), the small, fast and magical command-line data processor",
   "keywords": [
     "pxi",
     "pixie",
     "json",
     "csv",
+    "ssv",
+    "tsv",
+    "dsv",
+    "data-processing",
     "deserializer",
     "parser",
     "serializer",
