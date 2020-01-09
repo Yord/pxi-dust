@@ -48,7 +48,7 @@ This plugin comes with the following `pxi` extensions:
 | `map` applicator     | Applies `pxi`'s functions to each individual line. Always returns a single result, unless an error is thrown during function application.                                                        |
 | `flatMap` applicator | Applies `pxi`'s functions to each individual line. May return any number of results, including none, thus being able to change the length of a file.                                             |
 | `filter` applicator  | Treats `pxi`'s functions as a conjunction of predicates and applies it to each individual line. If any predicate is false, the line is dropped, if all predicates return true, the line is kept. |
-| `string` marshaller  | Serializes each transformed JSON into a string separated by newlines.                                                                                                                            |
+| `string` serializer  | Serializes each transformed JSON into a string separated by newlines.                                                                                                                            |
 
 ## Reporting Issues
 

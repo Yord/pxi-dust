@@ -8,7 +8,7 @@ module.exports = {
     require('./src/applicators/flatMap'),
     require('./src/applicators/filter')
   ],
-  marshallers:   [
-    require('./src/marshallers/string')
+  serializers:   [
+    require('./src/serializers/string')
   ]
 }
