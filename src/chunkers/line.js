@@ -6,40 +6,25 @@ module.exports = {
     const lines  = []
     const err    = []
   
-    let text     = data
-    let len      = text.length
+    const recordSeparator = '\n'
   
-    let at       = -1
     let lastLine = linesOffset
-    
-    let obj      = false
+    let prev     = -1
+    let last     = data.indexOf(recordSeparator, prev + 1)
   
-    let done     = false
-    let ch
-    
-    do {
-      at++
-      ch = text.charAt(at)
-  
-      if (ch === '\n') {
-        if (verbose) lastLine++
-        obj = true
+    while (last > -1) {
+      const chunk = data.slice(prev + 1, last)
+      chunks.push(chunk)
+      if (verbose > 0) {
+        lastLine++
+        lines.push(lastLine)
       }
+      prev = last
+      last = data.indexOf(recordSeparator, prev + 1)
+    }
   
-      if (at === len) done = true
+    const rest = data.slice(prev + 1)
   
-      if (obj) {
-        obj = false
-        const chunk = text.slice(0, at)
-        chunks.push(chunk)
-        if (verbose) lines.push(lastLine)
-  
-        text = text.slice(at + 1, len)
-        len = text.length
-        at = -1
-      }
-    } while (!done)
-  
-    return {err, chunks, lines, lastLine, rest: text}
+    return {err, chunks, lines, lastLine, rest}
   }
 }
