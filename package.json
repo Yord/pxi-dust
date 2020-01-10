@@ -1,6 +1,6 @@
 {
   "name": "pxi-base",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "plugin with basic operations for pxi (pixie), the small, fast and magical command-line data processor",
   "keywords": [
     "pxi",
