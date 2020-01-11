@@ -1,6 +1,6 @@
 {
-  "name": "pxi-base",
-  "version": "0.11.0",
+  "name": "pxi-dust",
+  "version": "0.12.0",
   "description": "plugin with basic operations for pxi (pixie), the small, fast, and magical command-line data processor",
   "keywords": [
     "pxi",
@@ -16,7 +16,7 @@
     "serializer",
     "marshaller"
   ],
-  "homepage": "https://github.com/Yord/pxi-base",
+  "homepage": "https://github.com/Yord/pxi-dust",
   "bugs": {
     "url": "https://github.com/Yord/pxi/issues"
   },
@@ -28,7 +28,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yord/pxi-base.git"
+    "url": "https://github.com/Yord/pxi-dust.git"
   },
   "scripts": {
     "start": "./index.js",
