@@ -1,6 +1,6 @@
 ![pxi-dust teaser][teaser]
 
-🧚`pxi-dust` is a plugin with basic operations for `pxi` (pixie), the small, fast, and magical command-line data processor.
+🧚:sparkles:`pxi-dust` is a plugin with basic operations for `pxi` (pixie), the small, fast, and magical command-line data processor.
 
 See the [`pxi` github repository][pxi] for more details!
 
