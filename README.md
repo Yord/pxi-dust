@@ -1,6 +1,6 @@
-![pxi-base teaser][teaser]
+![pxi-dust teaser][teaser]
 
-🧚`pxi-base` is a plugin with basic operations for `pxi` (pixie), the small, fast, and magical command-line data processor.
+🧚`pxi-dust` is a plugin with basic operations for `pxi` (pixie), the small, fast, and magical command-line data processor.
 
 See the [`pxi` github repository][pxi] for more details!
 
@@ -14,23 +14,23 @@ See the [`pxi` github repository][pxi] for more details!
 
 ## Installation
 
-> :ok_hand: `pxi-base` comes preinstalled in `pxi`.
+> :ok_hand: `pxi-dust` comes preinstalled in `pxi`.
 > No installation necessary.
 > If you still want to install it, proceed as described below.
 
-`pxi-base` is installed in `~/.pxi/` as follows:
+`pxi-dust` is installed in `~/.pxi/` as follows:
 
 ```bash
-npm install pxi-base
+npm install pxi-dust
 ```
 
 The plugin is included in `~/.pxi/index.js` as follows:
 
 ```js
-const base = require('pxi-base')
+const dust = require('pxi-dust')
 
 module.exports = {
-  plugins:  [base],
+  plugins:  [dust],
   context:  {},
   defaults: {}
 }
@@ -56,21 +56,21 @@ Please report issues [in the tracker][issues]!
 
 ## License
 
-`pxi-base` is [MIT licensed][license].
+`pxi-dust` is [MIT licensed][license].
 
-[actions]: https://github.com/Yord/pxi-base/actions
+[actions]: https://github.com/Yord/pxi-dust/actions
 [contribute]: https://github.com/Yord/pxi
 [issues]: https://github.com/Yord/pxi/issues
-[license]: https://github.com/Yord/pxi-base/blob/master/LICENSE
+[license]: https://github.com/Yord/pxi-dust/blob/master/LICENSE
 [node]: https://nodejs.org/
-[npm-package]: https://www.npmjs.com/package/pxi-base
+[npm-package]: https://www.npmjs.com/package/pxi-dust
 [pxi]: https://github.com/Yord/pxi
 [pxi-module]: https://github.com/Yord/pxi#pxi-module
-[shield-license]: https://img.shields.io/npm/l/pxi-base?color=yellow&labelColor=313A42
-[shield-node]: https://img.shields.io/node/v/pxi-base?color=red&labelColor=313A42
-[shield-npm]: https://img.shields.io/npm/v/pxi-base.svg?color=orange&labelColor=313A42
+[shield-license]: https://img.shields.io/npm/l/pxi-dust?color=yellow&labelColor=313A42
+[shield-node]: https://img.shields.io/node/v/pxi-dust?color=red&labelColor=313A42
+[shield-npm]: https://img.shields.io/npm/v/pxi-dust.svg?color=orange&labelColor=313A42
 [shield-prs]: https://img.shields.io/badge/PRs-welcome-green.svg?labelColor=313A42
-[shield-unit-tests-linux]: https://github.com/Yord/pxi-base/workflows/linux/badge.svg?branch=master
-[shield-unit-tests-macos]: https://github.com/Yord/pxi-base/workflows/macos/badge.svg?branch=master
-[shield-unit-tests-windows]: https://github.com/Yord/pxi-base/workflows/windows/badge.svg?branch=master
-[teaser]: https://github.com/Yord/pxi-base/blob/master/teaser.gif?raw=true
+[shield-unit-tests-linux]: https://github.com/Yord/pxi-dust/workflows/linux/badge.svg?branch=master
+[shield-unit-tests-macos]: https://github.com/Yord/pxi-dust/workflows/macos/badge.svg?branch=master
+[shield-unit-tests-windows]: https://github.com/Yord/pxi-dust/workflows/windows/badge.svg?branch=master
+[teaser]: https://github.com/Yord/pxi-dust/blob/master/teaser.gif?raw=true
