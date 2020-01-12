@@ -1,7 +1,7 @@
 module.exports = {
   name: 'line',
   desc: 'treats lines as chunks.',
-  func: ({verbose}) => (data, linesOffset) => {
+  func: ({verbose}) => (data, linesOffset, noMoreData) => {
     const chunks = []
     const lines  = []
     const err    = []
