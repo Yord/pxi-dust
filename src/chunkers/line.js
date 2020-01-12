@@ -1,7 +1,7 @@
 module.exports = {
   name: 'line',
   desc: 'treats lines as chunks.',
-  func: ({verbose}) => (data, linesOffset) => {
+  func: ({verbose}) => (data, linesOffset, noMoreData) => {
     const chunks = []
     const lines  = []
     const err    = []
@@ -23,7 +23,16 @@ module.exports = {
       last = data.indexOf(recordSeparator, prev + 1)
     }
   
-    const rest = data.slice(prev + 1)
+    let rest = data.slice(prev + 1)
+
+    if (noMoreData && rest !== '') {
+      chunks.push(rest)
+      if (verbose > 0) {
+        lastLine++
+        lines.push(lastLine)
+      }
+      rest = ''
+    }
   
     return {err, chunks, lines, lastLine, rest}
   }
