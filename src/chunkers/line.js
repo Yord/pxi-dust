@@ -23,7 +23,16 @@ module.exports = {
       last = data.indexOf(recordSeparator, prev + 1)
     }
   
-    const rest = data.slice(prev + 1)
+    let rest = data.slice(prev + 1)
+
+    if (noMoreData && rest !== '') {
+      chunks.push(rest)
+      if (verbose > 0) {
+        lastLine++
+        lines.push(lastLine)
+      }
+      rest = ''
+    }
   
     return {err, chunks, lines, lastLine, rest}
   }
