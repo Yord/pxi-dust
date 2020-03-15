@@ -1,6 +1,6 @@
 {
   "name": "pxi-dust",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "description": "plugin with basic operations for pxi (pixie), the small, fast, and magical command-line data processor",
   "keywords": [
     "pxi",
